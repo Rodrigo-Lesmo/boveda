@@ -3,6 +3,7 @@ from flask import render_template, redirect, request, session, flash
 from flask_app.models.user import Usuario
 from flask_app.models.deposito import Deposito
 from flask_app.models.ubicacion import Ubicacion
+from flask_app.models.entrada import Entrada
 from flask_bcrypt import Bcrypt
 
 bcrypt = Bcrypt(app)
@@ -20,8 +21,8 @@ def index():
     data = {
         'id': session['user_id']
     }
-    return render_template("index.html", usuario=Usuario.get_by_id(data))
-
+    return render_template("index.html", usuario=Usuario.get_by_id(data), ubicacion=Ubicacion.get_by_name(),
+                           entra=Entrada.get_by_name())
 
 
 @app.route('/deposito')
@@ -41,7 +42,7 @@ def ubicacion():
     data = {
         'id': session['user_id']
     }
-    return render_template("ubicacion.html", ubicaciones=Ubicacion.get_by_name(), depositos=Deposito.get_by_name(), usuario=Usuario.get_all())
+    return render_template("ubicacion.html", ubicaciones=Ubicacion.get_by_name(), depositos=Deposito.get_by_name(), usuario=Usuario.get_by_id(data))
 
 
 @app.route('/usuarios')
